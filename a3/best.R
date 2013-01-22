@@ -9,6 +9,5 @@ best <- function(state, outcome) {
   states <- unique(hospitals$State)
   if(!any(states == state)) stop("invalid state")
   state_hospitals <- subset(hospitals, State == state)
-  min<-which.min(state_hospitals[,o])
-  toString(state_hospitals[min,"Hospital.Name"])
+  toString(state_hospitals$Hospital.Name[order(state_hospitals[,o], state_hospitals$Hospital.Name, na.last=NA)][1])
 }
