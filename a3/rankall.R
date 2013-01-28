@@ -10,6 +10,19 @@ rankall <- function(outcome, num = "best") {
               "heart failure" = 17,
               "pneumonia" = 23)
   hospitals <- read.csv("ProgAssignment3-data/outcome-of-care-measures.csv",na.strings="Not Available")
-  
-  
+  states <- sort(unique(hospitals$State))
+  best<-function(state){
+    state_hospitals <- subset(hospitals, State == state)
+    sorted <- state_hospitals$Hospital.Name[order(state_hospitals[,o], state_hospitals$Hospital.Name, na.last=NA)]
+    name <- if(num == "best"){
+      sorted[1]
+    }else if(num == "worst") {
+      tail(sorted,1)
+    }else {
+      sorted[num]
+    }
+    toString(name)
+  }
+  names<-sapply(states,best)
+  data.frame(hospital=names,state=states,row.names=states)
 }
